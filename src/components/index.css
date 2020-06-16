@@ -1,0 +1,10 @@
+.BoxHeaderEsquerda {
+  float: left;
+  width: 80%;
+}
+
+.BoxHeaderDireita {
+  float: left;
+
+  width: 15%;
+}
