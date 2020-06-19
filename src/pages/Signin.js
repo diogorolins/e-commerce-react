@@ -1,78 +1,64 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Container from "@material-ui/core/Container";
-import Select from "@material-ui/core/Select";
-import Endereco from "../components/Endereco";
-import EnderecoLista from "../components/EnderecoLista";
 import Header from "../components/Header";
 import ApiService from "../services/ApiService";
-import Button from "@material-ui/core/Button";
 import ValidaForm from "../services/ValdaForm";
-import InputLabel from "@material-ui/core/InputLabel";
 import Snack from "../services/Snack";
 import { withRouter } from "react-router-dom";
+import FormularioCadastro from "../components/FormularioCadastro";
 
 class Signin extends React.Component {
   state = {
-    open: false,
+    openEndereco: false,
     openSnack: false,
-    nome: "",
+    name: "",
     email: "",
     cpfCnpj: "",
-    tipoCliente: "",
-    senha: "",
-    enderecos: [],
-    estados: [],
-    cidades: [],
-    rua: "",
-    numero: "",
-    bairro: "",
-    cidade: "",
-    estado: "",
-    cep: "",
+    clientType: "",
+    password: "",
     fixo: "",
     celular: "",
+    addresses: [],
+    address: {
+      street: "",
+      number: "",
+      compl: "",
+      neighborhood: "",
+      city: "",
+      state: "",
+      zipCode: "",
+    },
+    states: [],
+    cities: [],
+
     erros: [],
     severity: "error",
   };
 
-  handleClickOpen = async () => {
+  abreModalEnderecos = async () => {
     const response = await ApiService.listEstados();
-    this.setState({ open: true, estados: response.data });
+    this.setState({ openEndereco: true, states: response.data });
   };
 
-  handleClose = () => {
-    const endereco = {
-      rua: this.state.rua,
-      numero: this.state.numero,
-      complemento: this.state.complemento,
-      bairro: this.state.bairro,
-      cep: this.state.cep,
-      estado: this.state.estados.filter((e) => e.id === this.state.estado),
-      cidade: this.state.cidades.filter((e) => e.id === this.state.cidade),
+  fechaModalEnderecos = () => {
+    const addressObject = {
+      ...this.state.address,
+      state: this.state.states.filter(
+        (e) => e.id === this.state.address.state
+      )[0],
+      city: this.state.cities.filter(
+        (e) => e.id === this.state.address.city
+      )[0],
     };
 
-    const enderecoValida = {
-      rua: { value: this.state.rua, label: "Rua" },
-      numero: { value: this.state.numero, label: "Número" },
-      bairro: { value: this.state.bairro, label: "Bairro" },
-      cep: { value: this.state.cep, label: "CEP" },
-      estado: {
-        value: this.state.estados.filter((e) => e.id === this.state.estado),
-        label: "Estado",
-      },
-      cidade: {
-        value: this.state.cidades.filter((e) => e.id === this.state.cidade),
-        label: "Cidade",
-      },
-    };
+    const erros = ValidaForm(addressObject);
 
-    const erros = ValidaForm(enderecoValida);
     this.setState({ erros: erros[0] });
     if (erros.length === 0) {
-      this.setState({ enderecos: [...this.state.enderecos, endereco] });
-      this.setState({ open: false });
+      this.setState({
+        addresses: [...this.state.addresses, addressObject],
+      });
+      this.limpaEndereco();
+      this.setState({ openEndereco: false });
     } else {
       this.setState({ openSnack: true });
     }
@@ -80,20 +66,24 @@ class Signin extends React.Component {
 
   limpaEndereco = () => {
     this.setState({
-      rua: "",
-      numero: "",
-      complemento: "",
-      bairro: "",
-      cep: "",
-      estado: "",
-      cidade: "",
+      address: {
+        street: "",
+        number: "",
+        compl: "",
+        neighborhood: "",
+        city: "",
+        state: "",
+        zipCode: "",
+      },
+      cityValue: "",
+      stateValue: "",
     });
   };
 
-  handleCloseCancel = () => {
-    this.limparEndereco();
+  cancelaModalEndereco = () => {
+    this.limpaEndereco();
     this.setState({
-      open: false,
+      openEndereco: false,
     });
   };
 
@@ -105,52 +95,53 @@ class Signin extends React.Component {
   };
 
   carregaCamposCidade = async (event) => {
-    this.carregaCampos(event);
+    this.carregaCamposEndereco(event);
     const response = await ApiService.listCidades(event.target.value);
-    this.setState({ cidades: response.data });
+    this.setState({ cities: response.data });
   };
 
-  limparEndereco = (id) => {
-    const enderecosAtualizados = this.state.enderecos.filter((i, index) => {
+  carregaCamposEndereco = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      address: { ...this.state.address, [name]: value },
+    });
+  };
+
+  removeEnderecoLista = (id) => {
+    const enderecosAtualizados = this.state.addresses.filter((i, index) => {
       return index !== id;
     });
-    this.setState({ enderecos: enderecosAtualizados });
+    this.setState({ addresses: enderecosAtualizados });
   };
 
-  submitForm = async () => {
+  salvaUsuario = async () => {
     const client = {
-      name: this.state.nome,
+      name: this.state.name,
       email: this.state.email,
       cpfCnpj: this.state.cpfCnpj,
-      clientType: this.state.tipoCliente,
-      password: this.state.senha,
-      addresses: this.state.enderecos,
+      clientType: this.state.clientType,
+      password: this.state.password,
+      addresses: this.state.addresses,
       phones: [this.state.fixo, this.state.celular].filter((e) => e !== ""),
     };
-    const clientValida = {
-      name: { value: this.state.nome, label: "Nome" },
-      email: { value: this.state.email, label: "Email" },
-      cpfCnpj: { value: this.state.cpfCnpj, label: "CPF" },
-      clientType: { value: this.state.tipoCliente, label: "Tipo de cliente" },
-      password: { value: this.state.senha, label: "Senha" },
-      addresses: {
-        value: this.state.enderecos,
-        label: "Pelo menos um endereço",
-      },
-      phones: {
-        value: [this.state.fixo, this.state.celular].filter((e) => e !== ""),
-        label: "Pelo menos um telefone",
-      },
-    };
-    const erros = ValidaForm(clientValida);
+
+    const erros = ValidaForm(client);
     this.setState({ erros: erros[0] });
 
     if (erros.length === 0) {
-      await ApiService.insereCliente(client);
-      this.props.history.push({
-        pathname: "/login",
-        state: { detail: "teste" },
-      });
+      const response = await ApiService.insereCliente(client);
+
+      if (response.status === 201) {
+        this.props.history.push({
+          pathname: "/login",
+          state: { detail: "teste" },
+        });
+      } else {
+        this.setState({
+          erros: response.data.errors[0].message,
+          openSnack: true,
+        });
+      }
     } else {
       this.setState({ openSnack: true });
     }
@@ -164,21 +155,15 @@ class Signin extends React.Component {
 
   render() {
     const {
-      open,
-      nome,
-      email,
-      cpfCnpj,
-      tipoCliente,
-      senha,
-      estados,
-      estado,
-      cidades,
-      cidade,
-      fixo,
-      celular,
+      openEndereco,
+      clientType,
+      states,
+      cities,
       openSnack,
       erros,
       severity,
+      addresses,
+      address,
     } = this.state;
 
     return (
@@ -190,117 +175,23 @@ class Signin extends React.Component {
           erros={erros}
           severity={severity}
         />
-        <form>
-          <Container component="main" maxWidth="xs">
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="nome"
-              label="Nome"
-              name="nome"
-              autoFocus
-              value={nome}
-              onChange={this.carregaCampos}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoFocus
-              value={email}
-              onChange={this.carregaCampos}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="cpfCnpj"
-              label="cpfCnpj"
-              name="cpfCnpj"
-              autoFocus
-              value={cpfCnpj}
-              onChange={this.carregaCampos}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Senha"
-              type="password"
-              id="senha"
-              name="senha"
-              value={senha}
-              onChange={this.carregaCampos}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Telefone Celular"
-              id="celular"
-              name="celular"
-              value={celular}
-              onChange={this.carregaCampos}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              label="Telefone Fixo"
-              id="fixo"
-              name="fixo"
-              value={fixo}
-              onChange={this.carregaCampos}
-            />
-            <InputLabel>Tipo de Cliente</InputLabel>
-            <Select
-              variant="outlined"
-              id="tipoCliente"
-              name="tipoCliente"
-              fullWidth
-              value={tipoCliente}
-              onChange={this.carregaCampos}
-            >
-              <MenuItem value="1">Pessoa Física</MenuItem>
-              <MenuItem value="2">Pessoa Jurídica</MenuItem>
-            </Select>
-
-            <Endereco
-              handleClickOpen={this.handleClickOpen}
-              handleClose={this.handleClose}
-              carregaCampos={this.carregaCampos}
-              open={open}
-              estados={estados}
-              cidades={cidades}
-              handleCloseCancel={this.handleCloseCancel}
-              handleCidade={this.handleCidade}
-              estado={estado}
-              carregaCamposCidade={this.carregaCamposCidade}
-              cidade={cidade}
-            />
-            <EnderecoLista
-              enderecos={this.state.enderecos}
-              limparEndereco={this.limparEndereco}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={this.submitForm}
-            >
-              Enviar
-            </Button>
-          </Container>
-        </form>
+        <FormularioCadastro
+          carregaCampos={this.carregaCampos}
+          clientType={clientType}
+          abreModalEnderecos={this.abreModalEnderecos}
+          fechaModalEnderecos={this.fechaModalEnderecos}
+          cancelaModalEndereco={this.cancelaModalEndereco}
+          carregaCamposCidade={this.carregaCamposCidade}
+          carregaCamposEndereco={this.carregaCamposEndereco}
+          states={states}
+          cities={cities}
+          addresses={addresses}
+          removeEnderecoLista={this.removeEnderecoLista}
+          salvaUsuario={this.salvaUsuario}
+          open={openEndereco}
+          state={address.state}
+          city={address.city}
+        />
       </>
     );
   }

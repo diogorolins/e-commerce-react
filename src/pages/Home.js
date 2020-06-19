@@ -12,6 +12,8 @@ class Home extends React.Component {
     categories: [],
     products: null,
     product: null,
+    open: true,
+    quantity: 1,
   };
 
   async componentDidMount() {
@@ -32,26 +34,36 @@ class Home extends React.Component {
         name: response.data.name,
         price: response.data.price,
       },
+      open: true,
     });
+  };
+  fechaModal = () => {
+    this.setState({ open: false });
+  };
+
+  handleQuantity = (event) => {
+    this.setState({ quantity: event.target.value });
   };
 
   render() {
+    const { categories, products, product, open, quantity } = this.state;
     return (
       <>
         <Header />
 
-        <CategoryList
-          categories={this.state.categories}
-          getProducts={this.getProducts}
-        />
+        <CategoryList categories={categories} getProducts={this.getProducts} />
 
-        {this.state.products && (
+        {products && (
           <ProductList
-            products={this.state.products}
-            getProduct={this.getProductDetail}
+            products={products}
+            getProductDetail={this.getProductDetail}
+            open={open}
+            quantity={quantity}
+            handleQuantity={this.handleQuantity}
+            product={product}
+            fechaModal={this.fechaModal}
           />
         )}
-        {this.state.product && <ProductDetail product={this.state.product} />}
       </>
     );
   }

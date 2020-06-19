@@ -11,16 +11,16 @@ import InputLabel from "@material-ui/core/InputLabel";
 
 const Endereco = (props) => {
   const {
-    handleClickOpen,
+    abreModalEnderecos,
     open,
-    carregaCampos,
-    handleClose,
-    estados,
-    handleCloseCancel,
-    estado,
+    fechaModalEnderecos,
+    states,
+    cancelaModalEndereco,
     carregaCamposCidade,
-    cidades,
-    cidade,
+    carregaCamposEndereco,
+    cities,
+    state,
+    city,
   } = props;
 
   return (
@@ -29,7 +29,7 @@ const Endereco = (props) => {
         fullWidth
         variant="contained"
         color="default"
-        onClick={handleClickOpen}
+        onClick={abreModalEnderecos}
       >
         Escolha o endereço
       </Button>
@@ -42,61 +42,61 @@ const Endereco = (props) => {
             margin="normal"
             required
             fullWidth
-            id="rua"
+            id="street"
             label="Rua"
-            name="rua"
+            name="street"
             autoFocus
-            onChange={carregaCampos}
+            onChange={carregaCamposEndereco}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="numero"
+            id="number"
             label="Número"
-            name="numero"
-            onChange={carregaCampos}
+            name="number"
+            onChange={carregaCamposEndereco}
           />
           <TextField
             variant="outlined"
             margin="normal"
             fullWidth
-            id="complemento"
+            id="compl"
             label="Complemento"
-            name="complemento"
-            onChange={carregaCampos}
+            name="compl"
+            onChange={carregaCamposEndereco}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="bairro"
+            id="neighborhood"
             label="Bairro"
-            name="bairro"
-            onChange={carregaCampos}
+            name="neighborhood"
+            onChange={carregaCamposEndereco}
           />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="cep"
+            id="zipCode"
             label="CEP"
-            name="cep"
-            onChange={carregaCampos}
+            name="zipCode"
+            onChange={carregaCamposEndereco}
           />
           <InputLabel>Estado</InputLabel>
           <Select
             variant="outlined"
             fullWidth
-            id="estado"
-            name="estado"
+            id="state"
+            name="state"
             onChange={carregaCamposCidade}
-            value={estado}
+            value={state}
           >
-            {estados.map((estado) => {
+            {states.map((estado) => {
               return (
                 <MenuItem key={estado.id} value={estado.id}>
                   {estado.name}
@@ -108,12 +108,12 @@ const Endereco = (props) => {
           <Select
             variant="outlined"
             fullWidth
-            id="cidade"
-            name="cidade"
-            value={cidade}
-            onChange={carregaCampos}
+            id="city"
+            name="city"
+            onChange={carregaCamposEndereco}
+            value={city}
           >
-            {cidades.map((cidade) => {
+            {cities.map((cidade) => {
               return (
                 <MenuItem key={cidade.id} value={cidade.id}>
                   {cidade.name}
@@ -123,10 +123,10 @@ const Endereco = (props) => {
           </Select>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseCancel} color="primary">
+          <Button onClick={cancelaModalEndereco} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={fechaModalEnderecos} color="primary">
             Ok
           </Button>
         </DialogActions>

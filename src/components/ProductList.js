@@ -6,6 +6,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
+import ProductDetail from "./ProductDetail";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -34,35 +35,54 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductList = (props) => {
-  const { products, getProduct } = props;
+  const {
+    products,
+    getProductDetail,
+    product,
+    open,
+    quantity,
+    handleQuantity,
+    fechaModal,
+  } = props;
   const classes = useStyles();
   return (
-    <Box className={classes.box}>
-      <div className={classes.texto}>{"Selecione um Produto"}</div>
-      <Grid container className={classes.root} spacing={2}>
-        {products.map((product) => (
-          <Grid key={product.id} item>
-            <ListItem
-              button
-              key={product.id}
-              onClick={() => {
-                getProduct(product.id);
-              }}
-            >
-              <ListItemAvatar>
-                <Avatar
-                  src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${product.id}.jpg`}
+    <>
+      <Box className={classes.box}>
+        <div className={classes.texto}>{"Selecione um Produto"}</div>
+        <Grid container className={classes.root} spacing={2}>
+          {products.map((product) => (
+            <Grid key={product.id} item>
+              <ListItem
+                button
+                key={product.id}
+                onClick={() => {
+                  getProductDetail(product.id);
+                }}
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${product.id}.jpg`}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={product.name}
+                  secondary={`R$ ${product.price}`}
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={product.name}
-                secondary={`R$ ${product.price}`}
-              />
-            </ListItem>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+              </ListItem>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      {product && (
+        <ProductDetail
+          product={product}
+          handleQuantity={handleQuantity}
+          open={open}
+          quantity={quantity}
+          fechaModal={fechaModal}
+        />
+      )}
+    </>
   );
 };
 

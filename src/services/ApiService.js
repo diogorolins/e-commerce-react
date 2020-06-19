@@ -13,6 +13,7 @@ const ApiService = {
   login: async (creds) => await api.post("login", creds),
   listEstados: async () => await api.get("states"),
   listCidades: async (id) => await api.get(`states/${id}/cities`),
-  insereCliente: async (cliente) => await api.post("clients", cliente),
+  insereCliente: async (cliente) =>
+    await api.post("clients", cliente).catch((error) => error.response),
 };
 export default ApiService;

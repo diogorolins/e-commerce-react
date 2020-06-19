@@ -6,44 +6,51 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const EnderecoLista = (props) => {
-  const { enderecos, limparEndereco } = props;
+  const { addresses, removeEnderecoLista } = props;
 
   return (
     <>
       <Typography color="primary" gutterBottom>
         Endereços
       </Typography>
-      {enderecos &&
-        enderecos.map((e, index) => (
+      {addresses &&
+        addresses.map((e, index) => (
           <Card key={index}>
             <CardContent>
               <Typography color="textSecondary" gutterBottom>
                 Endereço
               </Typography>
               <Typography variant="body2" component="p">
-                {e.rua}
+                <strong>Rua:</strong> {e.street}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.numero}
+                <strong>Número</strong> {e.numbber}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.complemento}
+                <strong>Complemento:</strong> {e.compl}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.bairro}
+                <strong>Bairro: </strong>
+                {e.neighborhood}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.cep}
+                <strong>CEP: </strong>
+                {e.zipCode}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.estado[0].name}
+                <strong>Estado: </strong>
+                {e.state.name}
               </Typography>
               <Typography variant="body2" component="p">
-                {e.cidade[0].name}
+                <strong>Cidade: </strong>
+                {e.city.name}
               </Typography>
             </CardContent>
             <CardActions>
-              <Button color="secondary" onClick={() => limparEndereco(index)}>
+              <Button
+                color="secondary"
+                onClick={() => removeEnderecoLista(index)}
+              >
                 Remover
               </Button>
             </CardActions>
