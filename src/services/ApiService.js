@@ -15,5 +15,9 @@ const ApiService = {
   listCidades: async (id) => await api.get(`states/${id}/cities`),
   insereCliente: async (cliente) =>
     await api.post("clients", cliente).catch((error) => error.response),
+  getUsuario: async (email, token) =>
+    api.get(`clients/email?email=${email}`, {
+      headers: { Authorization: "Bearer " + token },
+    }),
 };
 export default ApiService;

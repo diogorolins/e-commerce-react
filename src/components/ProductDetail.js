@@ -4,7 +4,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/box";
-import Grid from "@material-ui/core/grid";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
@@ -39,7 +38,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductDetail = (props) => {
-  const { quantity, product, handleQuantity, open, fechaModal } = props;
+  const {
+    quantity,
+    product,
+    handleQuantity,
+    open,
+    fechaModal,
+    adicionaProduto,
+  } = props;
   const quantidade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const classes = useStyles();
@@ -51,6 +57,7 @@ const ProductDetail = (props) => {
           <Box>
             <img
               width="100%"
+              alt="imagem do produto"
               src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${product.id}.jpg`}
             />
           </Box>
@@ -71,7 +78,12 @@ const ProductDetail = (props) => {
                 </Select>
               </Box>
               <Box className={classes.item}>
-                <Button variant="contained" color="primary" size="small">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={adicionaProduto}
+                >
                   Adicionar
                 </Button>
               </Box>

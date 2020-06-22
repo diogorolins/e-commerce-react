@@ -3,21 +3,24 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   boxEsquerda: {
     float: "left",
-    width: "70%",
+    width: "60%",
     marginTop: "5px",
   },
   boxDireita: {
     float: "left",
-    width: "25%",
+    width: "40%",
     textAlignLast: "right",
   },
   linkHome: {
     color: "white",
-    fontSize: 22,
+    fontSize: 25,
   },
   botaoHeader: {
-    margin: 0,
+    display: "inline-block",
+    margin: "5px",
     padding: 0,
+    color: "white",
+    fontWeight: "bold",
   },
   boxHeader: {
     float: "left",

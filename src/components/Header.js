@@ -5,17 +5,28 @@ import { withRouter } from "react-router-dom";
 import useStyles from "./UseStyles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const Header = (props) => {
   const classes = useStyles();
-  const { history } = props;
+  const {
+    history,
+    userName,
+    openCarrinho,
+    temCarrinho,
+    desmontaCarrinho,
+  } = props;
 
   const loginFunction = () => {
-    history.push("/login");
+    history.push({
+      pathname: "/login",
+      state: { detail: "" },
+    });
   };
 
   const logoutFunction = () => {
     logout();
+    desmontaCarrinho();
     history.push("/");
   };
 
@@ -26,26 +37,37 @@ const Header = (props) => {
           Venda de Produtos
         </Link>
       </Box>
+
       <Box className={classes.boxDireita} alignItems="right">
-        {!isAuthenticated() ? (
-          <Button
-            onClick={loginFunction}
-            variant="contained"
-            className={classes.botaoHeader}
-          >
-            Login
-          </Button>
-        ) : (
-          <>
+        {isAuthenticated() && (
+          <Box className={classes.botaoHeader}>{`Bem-vindo, ${userName}`}</Box>
+        )}
+        {temCarrinho && (
+          <Box className={classes.botaoHeader}>
             <Button
-              onClick={logoutFunction}
               variant="contained"
               className={classes.botaoHeader}
+              color="primary"
+              onClick={openCarrinho}
             >
-              Logout
+              <ShoppingCartIcon />
             </Button>
-          </>
+          </Box>
         )}
+
+        <Box className={classes.botaoHeader}>
+          {!isAuthenticated() ? (
+            <Button onClick={loginFunction} variant="contained">
+              Login
+            </Button>
+          ) : (
+            <>
+              <Button onClick={logoutFunction} variant="contained">
+                Logout
+              </Button>
+            </>
+          )}
+        </Box>
       </Box>
     </Box>
   );

@@ -37,9 +37,15 @@ class Login extends React.Component {
     try {
       const response = await ApiService.login(JSON.stringify(credentials));
       const token = response.headers.authorization;
-
       login(token.substring(7, token.length));
-      this.props.history.push("/");
+      if (this.props.location.state.detail === "veioCarrinho") {
+        this.props.history.push({
+          pathname: "/confirmacao",
+          state: { detail: this.props.location.state.carrinho },
+        });
+      } else {
+        this.props.history.push("/");
+      }
     } catch (err) {
       this.setState({
         open: true,
@@ -48,7 +54,7 @@ class Login extends React.Component {
     }
   };
   componentDidMount() {
-    if (this.props.location.state) {
+    if (this.props.location.state.detail === "confirm") {
       this.setState({
         open: true,
         severity: "success",

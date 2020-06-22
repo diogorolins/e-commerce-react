@@ -134,7 +134,7 @@ class Signin extends React.Component {
       if (response.status === 201) {
         this.props.history.push({
           pathname: "/login",
-          state: { detail: "teste" },
+          state: { detail: "confirm" },
         });
       } else {
         this.setState({

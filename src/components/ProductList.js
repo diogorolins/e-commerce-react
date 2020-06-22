@@ -6,7 +6,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import ProductDetail from "./ProductDetail";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -35,15 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductList = (props) => {
-  const {
-    products,
-    getProductDetail,
-    product,
-    open,
-    quantity,
-    handleQuantity,
-    fechaModal,
-  } = props;
+  const { products, getProductDetail } = props;
   const classes = useStyles();
   return (
     <>
@@ -73,15 +64,6 @@ const ProductList = (props) => {
           ))}
         </Grid>
       </Box>
-      {product && (
-        <ProductDetail
-          product={product}
-          handleQuantity={handleQuantity}
-          open={open}
-          quantity={quantity}
-          fechaModal={fechaModal}
-        />
-      )}
     </>
   );
 };
