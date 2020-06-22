@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/geral/Header";
 import ApiService from "../services/ApiService";
 import ValidaForm from "../services/ValdaForm";
 import Snack from "../services/Snack";
 import { withRouter } from "react-router-dom";
-import FormularioCadastro from "../components/FormularioCadastro";
+import FormularioCadastro from "../components/signin/FormularioCadastro";
 
 class Signin extends React.Component {
   state = {

@@ -3,8 +3,8 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Container from "@material-ui/core/Container";
 import Select from "@material-ui/core/Select";
-import Endereco from "../components/Endereco";
-import EnderecoLista from "../components/EnderecoLista";
+import Endereco from "./Endereco";
+import EnderecoLista from "./EnderecoLista";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 

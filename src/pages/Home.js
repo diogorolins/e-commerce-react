@@ -1,18 +1,18 @@
 import React from "react";
-import Header from "../components/Header";
-import CategoryList from "../components/CategoryList";
+import Header from "../components/geral/Header";
+import CategoryList from "../components/home/CategoryList";
 import { withRouter } from "react-router-dom";
-import ProductList from "../components/ProductList";
-import ProductDetail from "../components/ProductDetail";
-import Carrinho from "../components/Carrinho";
+import ProductList from "../components/home/ProductList";
+import ProductDetail from "../components/home/ProductDetail";
+import Carrinho from "../components/home/Carrinho";
 import ApiService from "../services/ApiService";
 import { isAuthenticated, getToken } from "../services/Auth";
+import Snack from "../services/Snack";
 import {
   adicionaCarrinho,
   limpaCarrinho,
   getCarrinho,
 } from "../services/CarrinhoService";
-import "../components/index.css";
 
 class Home extends React.Component {
   state = {
@@ -23,7 +23,8 @@ class Home extends React.Component {
     quantity: 1,
     userName: "",
     carrinhoAberto: false,
-    carrinho: [],
+    carrinho: "",
+    openSnack: false,
   };
 
   async componentDidMount() {
@@ -70,6 +71,7 @@ class Home extends React.Component {
     this.setState({ quantity: 1 });
     adicionaCarrinho(carrinho);
     this.fechaModal();
+    this.abreSnack();
   };
 
   montaCarrinho = (itemCarrinho) => {
@@ -87,7 +89,7 @@ class Home extends React.Component {
 
   desmontaCarrinho = () => {
     limpaCarrinho();
-    this.setState({ carrinho: [] });
+    this.setState({ carrinho: "" });
   };
 
   openCarrinho = () => {
@@ -120,6 +122,16 @@ class Home extends React.Component {
     }
   };
 
+  abreSnack = () => {
+    this.setState({ openSnack: true });
+  };
+
+  fechaSnack = () => {
+    this.setState({
+      openSnack: false,
+    });
+  };
+
   render() {
     const {
       categories,
@@ -130,13 +142,21 @@ class Home extends React.Component {
       userName,
       carrinhoAberto,
       carrinho,
+      openSnack,
     } = this.state;
     return (
       <>
+        <Snack
+          openSnack={openSnack}
+          handleCloseSnack={this.fechaSnack}
+          erros="Produto adicionado com sucesso."
+          severity="success"
+        />
         <Header
           userName={userName}
           openCarrinho={this.openCarrinho}
           temCarrinho="true"
+          page="true"
           desmontaCarrinho={this.desmontaCarrinho}
         />
         <Carrinho

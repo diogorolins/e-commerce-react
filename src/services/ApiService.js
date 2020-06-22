@@ -19,5 +19,10 @@ const ApiService = {
     api.get(`clients/email?email=${email}`, {
       headers: { Authorization: "Bearer " + token },
     }),
+  inserePedido: async (pedido, token) => {
+    return api.post("orders", pedido, {
+      headers: { Authorization: "Bearer " + token },
+    });
+  },
 };
 export default ApiService;

@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/geral/Header";
 import ApiService from "../services/ApiService";
 import { login } from "../services/Auth";
 import Snack from "../services/Snack";

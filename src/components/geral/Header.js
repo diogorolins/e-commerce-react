@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "@material-ui/core/Link";
-import { isAuthenticated, logout } from "../services/Auth";
+import { isAuthenticated, logout } from "../../services/Auth";
 import { withRouter } from "react-router-dom";
 import useStyles from "./UseStyles";
 import Box from "@material-ui/core/Box";
@@ -15,6 +15,7 @@ const Header = (props) => {
     openCarrinho,
     temCarrinho,
     desmontaCarrinho,
+    page,
   } = props;
 
   const loginFunction = () => {
@@ -55,19 +56,21 @@ const Header = (props) => {
           </Box>
         )}
 
-        <Box className={classes.botaoHeader}>
-          {!isAuthenticated() ? (
-            <Button onClick={loginFunction} variant="contained">
-              Login
-            </Button>
-          ) : (
-            <>
-              <Button onClick={logoutFunction} variant="contained">
-                Logout
+        {page && (
+          <Box className={classes.botaoHeader}>
+            {!isAuthenticated() ? (
+              <Button onClick={loginFunction} variant="contained">
+                Login
               </Button>
-            </>
-          )}
-        </Box>
+            ) : (
+              <>
+                <Button onClick={logoutFunction} variant="contained">
+                  Logout
+                </Button>
+              </>
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   );

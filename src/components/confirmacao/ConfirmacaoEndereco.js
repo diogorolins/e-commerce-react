@@ -13,19 +13,23 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 const useStyles = makeStyles({
   root: {
     width: "100%",
+    padding: "0 50px 50px 50px",
+  },
+  text: {
+    color: "#750000",
+    fontWeight: "bolder",
+    fontSize: "20px",
   },
 });
 
-const ConfirmacaoEndereco = ({
-  addresses,
-  escolheEndereco,
-  enderecoSelecionado,
-}) => {
+const ConfirmacaoEndereco = (props) => {
   const classes = useStyles();
+  const { addresses, escolheEndereco, enderecoSelecionado } = props;
+
   return (
     <>
       <div className={classes.root}>
-        <h1>Selecione um endereço</h1>
+        <h1 className={classes.text}>Selecione um endereço</h1>
         <FormControl component="fieldset">
           <RadioGroup
             name="address1"
