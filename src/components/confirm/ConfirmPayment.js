@@ -14,7 +14,6 @@ import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
     padding: "0 50px 50px 50px",
   },
   text: {

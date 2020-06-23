@@ -10,12 +10,12 @@ import Dialog from "@material-ui/core/Dialog";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  tudo: {
+  root: {
     verticalAlign: "top",
     position: "relative",
   },
 
-  texto: {
+  text: {
     display: "inline-block",
     width: "40%",
   },
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   h2: {
     fontSize: "16px",
   },
-  formulario: {
+  form: {
     display: "inline-block",
     position: "relative",
     width: "55%",
@@ -61,12 +61,12 @@ const ProductDetail = (props) => {
               src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${product.id}.jpg`}
             />
           </Box>
-          <Box className={classes.tudo}>
-            <Box className={classes.texto}>
+          <Box className={classes.root}>
+            <Box className={classes.text}>
               <h1 className={classes.h1}>{product.name}</h1>
               <h2 className={classes.h2}>{`Preço: R$ ${product.price}`}</h2>
             </Box>
-            <Box className={classes.formulario}>
+            <Box className={classes.form}>
               <Box className={classes.item}>
                 <InputLabel>Quantidade</InputLabel>
                 <Select value={quantity} onChange={handleQuantity}>

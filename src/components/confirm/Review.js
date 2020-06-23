@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
     padding: "0 50px 50px 50px",
   },
   text: {
@@ -17,15 +16,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "20px",
   },
   list: {
-    width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
   },
-  esq: {
+  left: {
     width: "40%",
     display: "inline-block",
   },
-  dir: {
+  right: {
     display: "inline-block",
     width: "50%",
     verticalAlign: "top",
@@ -59,7 +56,7 @@ const Review = (props) => {
     <>
       <div className={classes.root}>
         <h1 className={classes.text}>Revisão do pedido</h1>
-        <div className={classes.esq}>
+        <div className={classes.left}>
           <List className={classes.list}>
             {order.items.map((item) => (
               <React.Fragment key={item.product.id}>
@@ -78,7 +75,7 @@ const Review = (props) => {
             ))}
           </List>
         </div>
-        <div className={classes.dir}>
+        <div className={classes.right}>
           <p>
             <strong>Endereco:</strong>
           </p>

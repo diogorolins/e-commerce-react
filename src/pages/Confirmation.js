@@ -118,7 +118,7 @@ class Confirmation extends React.Component {
         user: user.data,
         order: {
           client: user.data.id,
-          items: this.props.location.state.detail,
+          items: this.props.location.state.cart,
         },
         dueDate: `${dueDate.toDate().getDate()}/${
           dueDate.toDate().getMonth() + 1

@@ -12,7 +12,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
     padding: "0 50px 50px 50px",
   },
   text: {

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "20px",
     float: "left",
   },
-  texto: {
+  text: {
     ...theme.typography.button,
     padding: theme.spacing(1),
     paddingTop: "10px",
@@ -39,7 +39,7 @@ const ProductList = (props) => {
   return (
     <>
       <Box className={classes.box}>
-        <div className={classes.texto}>{"Selecione um Produto"}</div>
+        <div className={classes.text}>{"Selecione um Produto"}</div>
         <Grid container className={classes.root} spacing={2}>
           {products.map((product) => (
             <Grid key={product.id} item>

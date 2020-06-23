@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
-  texto: {
+  text: {
     ...theme.typography.button,
     padding: theme.spacing(1),
     paddingTop: "10px",
@@ -34,7 +34,7 @@ const CategoryList = (props) => {
   const classes = useStyles();
   return (
     <Box className={classes.box}>
-      <div className={classes.texto}>{"Selecione uma Categoria"}</div>
+      <div className={classes.text}>{"Selecione uma Categoria"}</div>
       <List
         component="nav"
         className={classes.root}

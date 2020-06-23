@@ -8,12 +8,12 @@ import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyles = makeStyles((theme) => ({
-  boxEsquerda: {
+  boxLeft: {
     float: "left",
     width: "60%",
     marginTop: "5px",
   },
-  boxDireita: {
+  boxRight: {
     float: "left",
     width: "40%",
     textAlignLast: "right",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontSize: 25,
   },
-  botaoHeader: {
+  buttonHeader: {
     display: "inline-block",
     margin: "5px",
     padding: 0,
@@ -66,18 +66,18 @@ const Header = (props) => {
 
   return (
     <Box className={classes.boxHeader}>
-      <Box className={classes.boxEsquerda} alignItems="left">
+      <Box className={classes.boxLeft} alignItems="left">
         <Link className={classes.linkHome} href="/">
           Venda de Produtos
         </Link>
       </Box>
 
-      <Box className={classes.boxDireita} alignItems="right">
+      <Box className={classes.boxRight} alignItems="right">
         {isAuthenticated() && (
-          <Box className={classes.botaoHeader}>{`Bem-vindo, ${userName}`}</Box>
+          <Box className={classes.buttonHeader}>{`Bem-vindo, ${userName}`}</Box>
         )}
         {showIconCart && (
-          <Box className={classes.botaoHeader}>
+          <Box className={classes.buttonHeader}>
             <Button variant="contained" color="primary" onClick={openCart}>
               <ShoppingCartIcon />
             </Button>
@@ -85,7 +85,7 @@ const Header = (props) => {
         )}
 
         {showLoginIcon && (
-          <Box className={classes.botaoHeader}>
+          <Box className={classes.buttonHeader}>
             {!isAuthenticated() ? (
               <Button onClick={loginFunction} variant="contained">
                 Login
