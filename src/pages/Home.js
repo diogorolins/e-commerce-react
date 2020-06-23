@@ -1,29 +1,25 @@
 import React from "react";
-import Header from "../components/geral/Header";
+import Header from "../components/general/Header";
 import CategoryList from "../components/home/CategoryList";
 import { withRouter } from "react-router-dom";
 import ProductList from "../components/home/ProductList";
 import ProductDetail from "../components/home/ProductDetail";
-import Carrinho from "../components/home/Carrinho";
+import Cart from "../components/home/Cart";
 import ApiService from "../services/ApiService";
-import { isAuthenticated, getToken } from "../services/Auth";
-import Snack from "../services/Snack";
-import {
-  adicionaCarrinho,
-  limpaCarrinho,
-  getCarrinho,
-} from "../services/CarrinhoService";
+import { isAuthenticated, getToken } from "../services/AuthService";
+import Snack from "../services/SnackService";
+import { addItemCart, clearCart, getCart } from "../services/CartService";
 
 class Home extends React.Component {
   state = {
     categories: [],
     products: null,
     product: null,
-    open: true,
+    openProducDetail: true,
     quantity: 1,
     userName: "",
-    carrinhoAberto: false,
-    carrinho: "",
+    openCart: false,
+    cart: "",
     openSnack: false,
   };
 
@@ -33,8 +29,8 @@ class Home extends React.Component {
     if (isAuthenticated()) {
       const token = getToken();
 
-      const usuario = await ApiService.getUsuario(token.email, token.token);
-      this.setState({ userName: usuario.data.name });
+      const user = await ApiService.getUser(token.email, token.token);
+      this.setState({ userName: user.data.name });
     }
   }
 
@@ -51,82 +47,78 @@ class Home extends React.Component {
         name: response.data.name,
         price: response.data.price,
       },
-      open: true,
+      openProducDetail: true,
     });
   };
-  fechaModal = () => {
-    this.setState({ open: false });
+  closeModal = () => {
+    this.setState({ openProducDetail: false });
   };
 
   handleQuantity = (event) => {
     this.setState({ quantity: event.target.value });
   };
 
-  adicionaProduto = () => {
-    const itemCarrinho = {
-      produto: this.state.product,
-      qtd: this.state.quantity,
+  addProduct = () => {
+    const itemCart = {
+      product: this.state.product,
+      quantity: this.state.quantity,
     };
-    const carrinho = this.montaCarrinho(itemCarrinho);
+    const carrinho = this.fillCart(itemCart);
     this.setState({ quantity: 1 });
-    adicionaCarrinho(carrinho);
-    this.fechaModal();
-    this.abreSnack();
+    addItemCart(carrinho);
+    this.closeModal();
+    this.openSnack();
   };
 
-  montaCarrinho = (itemCarrinho) => {
-    var carrinho = getCarrinho();
-    if (!carrinho) {
-      carrinho = [].concat(itemCarrinho);
+  fillCart = (itemCart) => {
+    var cart = getCart();
+    if (!cart) {
+      cart = [].concat(itemCart);
     } else {
-      carrinho = carrinho.filter(
-        (item) => item.produto.id !== itemCarrinho.produto.id
-      );
-      carrinho = carrinho.concat(itemCarrinho);
+      cart = cart.filter((item) => item.product.id !== itemCart.product.id);
+      cart = cart.concat(itemCart);
     }
-    return carrinho;
+    return cart;
   };
 
-  desmontaCarrinho = () => {
-    limpaCarrinho();
-    this.setState({ carrinho: "" });
+  clearCart = () => {
+    clearCart();
+    this.setState({ cart: "" });
   };
 
-  openCarrinho = () => {
-    this.setState({ carrinhoAberto: true, carrinho: getCarrinho() });
+  openCart = () => {
+    this.setState({ openCart: true, cart: getCart() });
   };
 
-  closeCarrinho = () => {
-    this.setState({ carrinhoAberto: false });
+  closeCart = () => {
+    this.setState({ openCart: false });
   };
 
-  removeItemCarrinho = (id) => {
-    const novoCarrinho = this.state.carrinho.filter(
-      (item) => item.produto.id !== id
-    );
-    adicionaCarrinho(novoCarrinho);
-    this.setState({ carrinho: novoCarrinho });
+  removeItemCart = (id) => {
+    const newCart = this.state.cart.filter((item) => item.product.id !== id);
+    addItemCart(newCart);
+    this.setState({ cart: newCart });
   };
 
-  fechaCompra = () => {
+  sendCartToOrder = () => {
     if (!isAuthenticated()) {
       this.props.history.push({
         pathname: "/login",
-        state: { detail: "veioCarrinho", carrinho: this.state.carrinho },
+        state: { detail: "haveCart", cart: this.state.cart },
       });
     } else {
       this.props.history.push({
-        pathname: "/confirmacao",
-        state: { detail: this.state.carrinho },
+        pathname: "/confirmation",
+        state: { detail: this.state.cart },
       });
     }
   };
 
-  abreSnack = () => {
+  openSnack = () => {
     this.setState({ openSnack: true });
   };
 
-  fechaSnack = () => {
+  closeSnack = () => {
     this.setState({
       openSnack: false,
     });
@@ -137,35 +129,35 @@ class Home extends React.Component {
       categories,
       products,
       product,
-      open,
+      openProducDetail,
       quantity,
       userName,
-      carrinhoAberto,
-      carrinho,
+      openCart,
+      cart,
       openSnack,
     } = this.state;
     return (
       <>
         <Snack
           openSnack={openSnack}
-          handleCloseSnack={this.fechaSnack}
-          erros="Produto adicionado com sucesso."
+          closeSnack={this.closeSnack}
+          message="Produto adicionado com sucesso."
           severity="success"
         />
         <Header
           userName={userName}
-          openCarrinho={this.openCarrinho}
-          temCarrinho="true"
-          page="true"
-          desmontaCarrinho={this.desmontaCarrinho}
+          openCart={this.openCart}
+          showIconCart="true"
+          showLoginIcon="true"
+          clearCart={this.clearCart}
         />
-        <Carrinho
-          open={carrinhoAberto}
-          close={this.closeCarrinho}
-          carrinho={carrinho}
-          desmontaCarrinho={this.desmontaCarrinho}
-          removeItemCarrinho={this.removeItemCarrinho}
-          fechaCompra={this.fechaCompra}
+        <Cart
+          openCart={openCart}
+          closeCart={this.closeCart}
+          cart={cart}
+          clearCart={this.clearCart}
+          removeItemCart={this.removeItemCart}
+          sendCartToOrder={this.sendCartToOrder}
         />
         <CategoryList categories={categories} getProducts={this.getProducts} />
 
@@ -179,10 +171,10 @@ class Home extends React.Component {
           <ProductDetail
             product={product}
             handleQuantity={this.handleQuantity}
-            open={open}
+            openProducDetail={openProducDetail}
             quantity={quantity}
-            fechaModal={this.fechaModal}
-            adicionaProduto={this.adicionaProduto}
+            closeModal={this.closeModal}
+            addProduct={this.addProduct}
           />
         )}
       </>

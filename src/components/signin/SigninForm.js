@@ -3,26 +3,26 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Container from "@material-ui/core/Container";
 import Select from "@material-ui/core/Select";
-import Endereco from "./Endereco";
-import EnderecoLista from "./EnderecoLista";
+import Address from "./Address";
+import ListAddress from "./ListAddress";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 
-const FormularioCadastro = (props) => {
+const SigninForm = (props) => {
   const {
-    carregaCampos,
+    fillFormFields,
     clientType,
-    abreModalEnderecos,
-    fechaModalEnderecos,
-    cancelaModalEndereco,
-    carregaCamposCidade,
-    removeEnderecoLista,
-    carregaCamposEndereco,
+    openModalAddress,
+    closeModalAddress,
+    cancelModalAddress,
+    fillFormFieldsCity,
+    removeAddressFromList,
+    fillFormFieldsAddress,
     states,
     cities,
     addresses,
-    salvaUsuario,
-    open,
+    saveUser,
+    openAddress,
     state,
     city,
   } = props;
@@ -38,7 +38,7 @@ const FormularioCadastro = (props) => {
         label="Nome"
         name="name"
         autoFocus
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <TextField
         variant="outlined"
@@ -49,7 +49,7 @@ const FormularioCadastro = (props) => {
         label="Email"
         name="email"
         autoFocus
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <TextField
         variant="outlined"
@@ -60,7 +60,7 @@ const FormularioCadastro = (props) => {
         label="cpfCnpj"
         name="cpfCnpj"
         autoFocus
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <TextField
         variant="outlined"
@@ -71,7 +71,7 @@ const FormularioCadastro = (props) => {
         type="password"
         id="password"
         name="password"
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <TextField
         variant="outlined"
@@ -81,7 +81,7 @@ const FormularioCadastro = (props) => {
         label="Telefone Celular"
         id="celular"
         name="celular"
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <TextField
         variant="outlined"
@@ -90,7 +90,7 @@ const FormularioCadastro = (props) => {
         label="Telefone Fixo"
         id="fixo"
         name="fixo"
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       />
       <InputLabel>Tipo de Cliente</InputLabel>
       <Select
@@ -99,37 +99,32 @@ const FormularioCadastro = (props) => {
         name="clientType"
         fullWidth
         value={clientType}
-        onChange={carregaCampos}
+        onChange={fillFormFields}
       >
         <MenuItem value="1">Pessoa Física</MenuItem>
         <MenuItem value="2">Pessoa Jurídica</MenuItem>
       </Select>
 
-      <Endereco
-        abreModalEnderecos={abreModalEnderecos}
-        fechaModalEnderecos={fechaModalEnderecos}
-        carregaCamposEndereco={carregaCamposEndereco}
-        open={open}
+      <Address
+        openModalAddress={openModalAddress}
+        closeModalAddress={closeModalAddress}
+        fillFormFieldsAddress={fillFormFieldsAddress}
+        openAddress={openAddress}
         states={states}
         cities={cities}
         state={state}
         city={city}
-        cancelaModalEndereco={cancelaModalEndereco}
-        carregaCamposCidade={carregaCamposCidade}
+        cancelModalAddress={cancelModalAddress}
+        fillFormFieldsCity={fillFormFieldsCity}
       />
-      <EnderecoLista
+      <ListAddress
         addresses={addresses}
-        removeEnderecoLista={removeEnderecoLista}
+        removeAddressFromList={removeAddressFromList}
       />
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        onClick={salvaUsuario}
-      >
+      <Button fullWidth variant="contained" color="primary" onClick={saveUser}>
         Enviar
       </Button>
     </Container>
   );
 };
-export default FormularioCadastro;
+export default SigninForm;

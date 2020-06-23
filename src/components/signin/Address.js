@@ -9,15 +9,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 
-const Endereco = (props) => {
+const Address = (props) => {
   const {
-    abreModalEnderecos,
-    open,
-    fechaModalEnderecos,
+    openModalAddress,
+    openAddress,
+    closeModalAddress,
     states,
-    cancelaModalEndereco,
-    carregaCamposCidade,
-    carregaCamposEndereco,
+    cancelModalAddress,
+    fillFormFieldsCity,
+    fillFormFieldsAddress,
     cities,
     state,
     city,
@@ -29,12 +29,17 @@ const Endereco = (props) => {
         fullWidth
         variant="contained"
         color="default"
-        onClick={abreModalEnderecos}
+        onClick={openModalAddress}
       >
         Escolha o endereço
       </Button>
 
-      <Dialog disableBackdropClick disableEscapeKeyDown open={open} fullWidth>
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        open={openAddress}
+        fullWidth
+      >
         <DialogTitle>Escolha o endereço</DialogTitle>
         <DialogContent>
           <TextField
@@ -46,7 +51,7 @@ const Endereco = (props) => {
             label="Rua"
             name="street"
             autoFocus
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
           />
           <TextField
             variant="outlined"
@@ -56,7 +61,7 @@ const Endereco = (props) => {
             id="number"
             label="Número"
             name="number"
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
           />
           <TextField
             variant="outlined"
@@ -65,7 +70,7 @@ const Endereco = (props) => {
             id="compl"
             label="Complemento"
             name="compl"
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
           />
           <TextField
             variant="outlined"
@@ -75,7 +80,7 @@ const Endereco = (props) => {
             id="neighborhood"
             label="Bairro"
             name="neighborhood"
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
           />
           <TextField
             variant="outlined"
@@ -85,7 +90,7 @@ const Endereco = (props) => {
             id="zipCode"
             label="CEP"
             name="zipCode"
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
           />
           <InputLabel>Estado</InputLabel>
           <Select
@@ -93,7 +98,7 @@ const Endereco = (props) => {
             fullWidth
             id="state"
             name="state"
-            onChange={carregaCamposCidade}
+            onChange={fillFormFieldsCity}
             value={state}
           >
             {states.map((estado) => {
@@ -110,7 +115,7 @@ const Endereco = (props) => {
             fullWidth
             id="city"
             name="city"
-            onChange={carregaCamposEndereco}
+            onChange={fillFormFieldsAddress}
             value={city}
           >
             {cities.map((cidade) => {
@@ -123,10 +128,10 @@ const Endereco = (props) => {
           </Select>
         </DialogContent>
         <DialogActions>
-          <Button onClick={cancelaModalEndereco} color="primary">
+          <Button onClick={cancelModalAddress} color="primary">
             Cancel
           </Button>
-          <Button onClick={fechaModalEnderecos} color="primary">
+          <Button onClick={closeModalAddress} color="primary">
             Ok
           </Button>
         </DialogActions>
@@ -135,4 +140,4 @@ const Endereco = (props) => {
   );
 };
 
-export default Endereco;
+export default Address;

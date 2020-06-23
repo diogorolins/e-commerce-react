@@ -32,24 +32,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Revisao = (props) => {
+const Review = (props) => {
   const classes = useStyles();
   const {
     order,
     addresses,
-    enderecoSelecionado,
-    tipoPagamento,
-    expiracaBolelo,
-    parcelas,
-    enviarPedido,
+    selectedAddress,
+    paymentType,
+    dueDate,
+    installments,
+    sendOrder,
   } = props;
-  const endereco = addresses.filter(
-    (item) => item.id + "" === enderecoSelecionado + ""
+  const address = addresses.filter(
+    (item) => item.id + "" === selectedAddress + ""
   );
 
-  const totalCarrinho = () => {
+  const totalCart = () => {
     const total = order.items.reduce(
-      (acc, item) => (acc += item.qtd * item.produto.price),
+      (acc, item) => (acc += item.quantity * item.product.price),
       0
     );
     return total;
@@ -62,13 +62,16 @@ const Revisao = (props) => {
         <div className={classes.esq}>
           <List className={classes.list}>
             {order.items.map((item) => (
-              <React.Fragment key={item.produto.id}>
+              <React.Fragment key={item.product.id}>
                 <ListItem>
                   <ListItemText
-                    primary={item.produto.name}
-                    secondary={`R$ ${item.produto.price}`}
+                    primary={item.product.name}
+                    secondary={`R$ ${item.product.price}`}
                   />
-                  <ListItemText primary="Quantidade:" secondary={item.qtd} />
+                  <ListItemText
+                    primary="Quantidade:"
+                    secondary={item.quantity}
+                  />
                 </ListItem>
                 <Divider />
               </React.Fragment>
@@ -79,19 +82,19 @@ const Revisao = (props) => {
           <p>
             <strong>Endereco:</strong>
           </p>
-          <p>{`${endereco[0].street}, ${endereco[0].number} - ${endereco[0].neighborhood}`}</p>
-          <p>{`${endereco[0].city.name}/ ${endereco[0].city.state.name}`}</p>
+          <p>{`${address[0].street}, ${address[0].number} - ${address[0].neighborhood}`}</p>
+          <p>{`${address[0].city.name}/ ${address[0].city.state.name}`}</p>
           <p>
             <strong>Pagamento:</strong>
-            {tipoPagamento === "paymentCard"
-              ? ` Pagamento com Cartão -  Parcelas: ${parcelas}`
-              : ` Pagamento com Boleto - Vencimento: ${expiracaBolelo}`}
+            {paymentType === "paymentCard"
+              ? ` Pagamento com Cartão -  Parcelas: ${installments}`
+              : ` Pagamento com Boleto - Vencimento: ${dueDate}`}
           </p>
           <p>
             <strong>Total do Pedido: </strong>
-            R$ {totalCarrinho()}
+            R$ {totalCart()}
           </p>
-          <Button variant="contained" color="primary" onClick={enviarPedido}>
+          <Button variant="contained" color="primary" onClick={sendOrder}>
             Finalizar Pedido
           </Button>
         </div>
@@ -99,4 +102,4 @@ const Revisao = (props) => {
     </>
   );
 };
-export default Revisao;
+export default Review;

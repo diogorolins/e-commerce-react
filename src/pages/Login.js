@@ -6,17 +6,17 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
-import Header from "../components/geral/Header";
+import Header from "../components/general/Header";
 import ApiService from "../services/ApiService";
-import { login } from "../services/Auth";
-import Snack from "../services/Snack";
+import { login } from "../services/AuthService";
+import Snack from "../services/SnackService";
 
 class Login extends React.Component {
   state = {
     login: "",
-    senha: "",
+    password: "",
     open: false,
-    erros: [],
+    errors: [],
     severity: "error",
   };
 
@@ -31,17 +31,17 @@ class Login extends React.Component {
 
     const credentials = {
       email: this.state.login,
-      password: this.state.senha,
+      password: this.state.password,
     };
 
     try {
       const response = await ApiService.login(JSON.stringify(credentials));
       const token = response.headers.authorization;
       login(token.substring(7, token.length));
-      if (this.props.location.state.detail === "veioCarrinho") {
+      if (this.props.location.state.detail === "haveCart") {
         this.props.history.push({
           pathname: "/confirmacao",
-          state: { detail: this.props.location.state.carrinho },
+          state: { detail: this.props.location.state.cart },
         });
       } else {
         this.props.history.push("/");
@@ -49,7 +49,7 @@ class Login extends React.Component {
     } catch (err) {
       this.setState({
         open: true,
-        erros: ["Login ou senha inválidos"],
+        errors: ["Login ou senha inválidos"],
       });
     }
   };
@@ -58,20 +58,20 @@ class Login extends React.Component {
       this.setState({
         open: true,
         severity: "success",
-        erros: ["Usuário cadastrado com sucesso."],
+        errors: ["Usuário cadastrado com sucesso."],
       });
     }
   }
 
   render() {
-    const { open, login, senha, erros, severity } = this.state;
+    const { open, login, password, errors, severity } = this.state;
     return (
       <>
         <Header />
         <Snack
           openSnack={open}
           handleCloseSnack={this.handleCloseSnack}
-          erros={erros}
+          message={errors}
           severity={severity}
         />
         <Container component="main" maxWidth="xs">
@@ -99,8 +99,8 @@ class Login extends React.Component {
             label="Senha"
             type="password"
             id="password"
-            value={senha}
-            onChange={(e) => this.setState({ senha: e.target.value })}
+            value={password}
+            onChange={(e) => this.setState({ password: e.target.value })}
           />
 
           <Button

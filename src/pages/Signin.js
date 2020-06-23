@@ -1,14 +1,14 @@
 import React from "react";
-import Header from "../components/geral/Header";
+import Header from "../components/general/Header";
 import ApiService from "../services/ApiService";
-import ValidaForm from "../services/ValdaForm";
-import Snack from "../services/Snack";
+import FormValidation from "../services/FormValidation";
+import Snack from "../services/SnackService";
 import { withRouter } from "react-router-dom";
-import FormularioCadastro from "../components/signin/FormularioCadastro";
+import SigninForm from "../components/signin/SigninForm";
 
 class Signin extends React.Component {
   state = {
-    openEndereco: false,
+    openAddress: false,
     openSnack: false,
     name: "",
     email: "",
@@ -30,16 +30,16 @@ class Signin extends React.Component {
     states: [],
     cities: [],
 
-    erros: [],
+    errors: [],
     severity: "error",
   };
 
-  abreModalEnderecos = async () => {
-    const response = await ApiService.listEstados();
-    this.setState({ openEndereco: true, states: response.data });
+  openModalAddress = async () => {
+    const response = await ApiService.listStates();
+    this.setState({ openAddress: true, states: response.data });
   };
 
-  fechaModalEnderecos = () => {
+  closeModalAddress = () => {
     const addressObject = {
       ...this.state.address,
       state: this.state.states.filter(
@@ -50,21 +50,21 @@ class Signin extends React.Component {
       )[0],
     };
 
-    const erros = ValidaForm(addressObject);
+    const erros = FormValidation(addressObject);
 
-    this.setState({ erros: erros[0] });
+    this.setState({ errors: erros[0] });
     if (erros.length === 0) {
       this.setState({
         addresses: [...this.state.addresses, addressObject],
       });
-      this.limpaEndereco();
-      this.setState({ openEndereco: false });
+      this.cleanAddress();
+      this.setState({ openAddress: false });
     } else {
       this.setState({ openSnack: true });
     }
   };
 
-  limpaEndereco = () => {
+  cleanAddress = () => {
     this.setState({
       address: {
         street: "",
@@ -80,41 +80,41 @@ class Signin extends React.Component {
     });
   };
 
-  cancelaModalEndereco = () => {
-    this.limpaEndereco();
+  cancelModalAddress = () => {
+    this.cleanAddress();
     this.setState({
-      openEndereco: false,
+      openAddress: false,
     });
   };
 
-  carregaCampos = (event) => {
+  fillFormFields = (event) => {
     const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
   };
 
-  carregaCamposCidade = async (event) => {
-    this.carregaCamposEndereco(event);
-    const response = await ApiService.listCidades(event.target.value);
+  fillFormFieldsCity = async (event) => {
+    this.fillFormFieldsAddress(event);
+    const response = await ApiService.listCities(event.target.value);
     this.setState({ cities: response.data });
   };
 
-  carregaCamposEndereco = (event) => {
+  fillFormFieldsAddress = (event) => {
     const { name, value } = event.target;
     this.setState({
       address: { ...this.state.address, [name]: value },
     });
   };
 
-  removeEnderecoLista = (id) => {
-    const enderecosAtualizados = this.state.addresses.filter((i, index) => {
+  removeAddressFromList = (id) => {
+    const updatedAddresses = this.state.addresses.filter((i, index) => {
       return index !== id;
     });
-    this.setState({ addresses: enderecosAtualizados });
+    this.setState({ addresses: updatedAddresses });
   };
 
-  salvaUsuario = async () => {
+  saveUser = async () => {
     const client = {
       name: this.state.name,
       email: this.state.email,
@@ -125,11 +125,11 @@ class Signin extends React.Component {
       phones: [this.state.fixo, this.state.celular].filter((e) => e !== ""),
     };
 
-    const erros = ValidaForm(client);
-    this.setState({ erros: erros[0] });
+    const errors = FormValidation(client);
+    this.setState({ errors: errors[0] });
 
-    if (erros.length === 0) {
-      const response = await ApiService.insereCliente(client);
+    if (errors.length === 0) {
+      const response = await ApiService.sendClient(client);
 
       if (response.status === 201) {
         this.props.history.push({
@@ -138,7 +138,7 @@ class Signin extends React.Component {
         });
       } else {
         this.setState({
-          erros: response.data.errors[0].message,
+          errors: response.data.errors[0].message,
           openSnack: true,
         });
       }
@@ -155,12 +155,12 @@ class Signin extends React.Component {
 
   render() {
     const {
-      openEndereco,
+      openAddress,
       clientType,
       states,
       cities,
       openSnack,
-      erros,
+      errors,
       severity,
       addresses,
       address,
@@ -172,23 +172,23 @@ class Signin extends React.Component {
         <Snack
           openSnack={openSnack}
           handleCloseSnack={this.handleCloseSnack}
-          erros={erros}
+          message={errors}
           severity={severity}
         />
-        <FormularioCadastro
-          carregaCampos={this.carregaCampos}
+        <SigninForm
+          fillFormFields={this.fillFormFields}
           clientType={clientType}
-          abreModalEnderecos={this.abreModalEnderecos}
-          fechaModalEnderecos={this.fechaModalEnderecos}
-          cancelaModalEndereco={this.cancelaModalEndereco}
-          carregaCamposCidade={this.carregaCamposCidade}
-          carregaCamposEndereco={this.carregaCamposEndereco}
+          openModalAddress={this.openModalAddress}
+          closeModalAddress={this.closeModalAddress}
+          cancelModalAddress={this.cancelModalAddress}
+          fillFormFieldsCity={this.fillFormFieldsCity}
+          fillFormFieldsAddress={this.fillFormFieldsAddress}
           states={states}
           cities={cities}
           addresses={addresses}
-          removeEnderecoLista={this.removeEnderecoLista}
-          salvaUsuario={this.salvaUsuario}
-          open={openEndereco}
+          removeAddressFromList={this.removeAddressFromList}
+          saveUser={this.saveUser}
+          openAddress={openAddress}
           state={address.state}
           city={address.city}
         />

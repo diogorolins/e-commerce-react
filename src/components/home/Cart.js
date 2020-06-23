@@ -34,21 +34,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Carrinho = (props) => {
+const Cart = (props) => {
   const classes = useStyles();
   const {
-    open,
-    close,
-    carrinho,
-    desmontaCarrinho,
-    removeItemCarrinho,
-    fechaCompra,
+    openCart,
+    closeCart,
+    cart,
+    clearCart,
+    removeItemCart,
+    sendCartToOrder,
   } = props;
 
-  const totalCarrinho = () => {
-    if (carrinho) {
-      const total = carrinho.reduce(
-        (acc, item) => (acc += item.qtd * item.produto.price),
+  const totalCart = () => {
+    if (cart) {
+      const total = cart.reduce(
+        (acc, item) => (acc += item.quantity * item.product.price),
         0
       );
       return total;
@@ -58,18 +58,18 @@ const Carrinho = (props) => {
 
   return (
     <div>
-      <Modal className={classes.modal} open={open} onClose={close}>
-        <Fade in={open}>
+      <Modal className={classes.modal} open={openCart} onClose={closeCart}>
+        <Fade in={openCart}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Carrinho</h2>
             <List className={classes.list}>
-              {carrinho ? (
+              {cart ? (
                 <ListItem>
                   <ListItemText>
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={fechaCompra}
+                      onClick={sendCartToOrder}
                     >
                       Finalizar
                     </Button>
@@ -78,7 +78,7 @@ const Carrinho = (props) => {
                     <Button
                       variant="contained"
                       color="default"
-                      onClick={desmontaCarrinho}
+                      onClick={clearCart}
                     >
                       Limpar Carrinho
                     </Button>
@@ -87,28 +87,28 @@ const Carrinho = (props) => {
               ) : (
                 <p>O carrinho está vazio.</p>
               )}
-              {carrinho &&
-                carrinho.map((item) => (
-                  <React.Fragment key={item.produto.id}>
+              {cart &&
+                cart.map((item) => (
+                  <React.Fragment key={item.product.id}>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar
-                          src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${item.produto.id}.jpg`}
+                          src={`https://springcourse.s3-sa-east-1.amazonaws.com/prod${item.product.id}.jpg`}
                         />
                       </ListItemAvatar>
                       <ListItemText
-                        primary={item.produto.name}
-                        secondary={`R$ ${item.produto.price}`}
+                        primary={item.product.name}
+                        secondary={`R$ ${item.product.price}`}
                       />
                       <ListItemText
                         primary="Quantidade:"
-                        secondary={item.qtd}
+                        secondary={item.quantity}
                       />
                       <ListItemText>
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={() => removeItemCarrinho(item.produto.id)}
+                          onClick={() => removeItemCart(item.product.id)}
                         >
                           <DeleteSharpIcon />
                         </Button>
@@ -119,7 +119,7 @@ const Carrinho = (props) => {
                 ))}
               <ListItem>
                 <ListItemText>Total:</ListItemText>
-                <ListItemText>R$: {totalCarrinho()}</ListItemText>
+                <ListItemText>R$: {totalCart()}</ListItemText>
               </ListItem>
             </List>
           </div>
@@ -129,4 +129,4 @@ const Carrinho = (props) => {
   );
 };
 
-export default Carrinho;
+export default Cart;

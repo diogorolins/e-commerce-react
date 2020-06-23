@@ -13,21 +13,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PedidoFinalizado = (props) => {
+const OrderSent = (props) => {
   const classes = useStyles();
-  const { detalhePedido } = props;
+  const { orderDetail } = props;
 
   return (
     <div className={classes.root}>
       <h1 className={classes.text}>Finalização do pedido</h1>
       <p>
-        Seu pedido de número: <strong>{detalhePedido.id}</strong> foi registrado
-        e em breve entraremos em contado pelo email:
-        <strong>{detalhePedido.client.email}</strong>.
+        Seu pedido de número: <strong>{orderDetail.id}</strong> foi registrado e
+        em breve entraremos em contado pelo email:
+        <strong>{orderDetail.client.email}</strong>.
       </p>
       <p>Obrigado!</p>
     </div>
   );
 };
 
-export default PedidoFinalizado;
+export default OrderSent;

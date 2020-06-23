@@ -11,15 +11,15 @@ const ApiService = {
   listProducts: async (id) => await api.get(`products/?categories=${id}`),
   getProductById: async (id) => await api.get(`products/${id}`),
   login: async (creds) => await api.post("login", creds),
-  listEstados: async () => await api.get("states"),
-  listCidades: async (id) => await api.get(`states/${id}/cities`),
-  insereCliente: async (cliente) =>
+  listStates: async () => await api.get("states"),
+  listCities: async (id) => await api.get(`states/${id}/cities`),
+  sendClient: async (cliente) =>
     await api.post("clients", cliente).catch((error) => error.response),
-  getUsuario: async (email, token) =>
+  getUser: async (email, token) =>
     api.get(`clients/email?email=${email}`, {
       headers: { Authorization: "Bearer " + token },
     }),
-  inserePedido: async (pedido, token) => {
+  sendOrder: async (pedido, token) => {
     return api.post("orders", pedido, {
       headers: { Authorization: "Bearer " + token },
     });

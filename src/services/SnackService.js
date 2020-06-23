@@ -3,18 +3,18 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
 const Snack = (props) => {
-  const { openSnack, handleCloseSnack, erros, severity } = props;
+  const { openSnack, closeSnack, message, severity } = props;
 
   return (
     <>
       <Snackbar
         open={openSnack}
         autoHideDuration={2000}
-        onClose={handleCloseSnack}
+        onClose={closeSnack}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnack} severity={severity} variant="filled">
-          {erros}
+        <Alert onClose={closeSnack} severity={severity} variant="filled">
+          {message}
         </Alert>
       </Snackbar>
     </>

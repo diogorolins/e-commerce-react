@@ -22,9 +22,9 @@ const useStyles = makeStyles({
   },
 });
 
-const ConfirmacaoEndereco = (props) => {
+const ConfirmAddress = (props) => {
   const classes = useStyles();
-  const { addresses, escolheEndereco, enderecoSelecionado } = props;
+  const { addresses, pickAddress, selectedAddress } = props;
 
   return (
     <>
@@ -33,8 +33,8 @@ const ConfirmacaoEndereco = (props) => {
         <FormControl component="fieldset">
           <RadioGroup
             name="address1"
-            value={`${enderecoSelecionado}`}
-            onChange={escolheEndereco}
+            value={`${selectedAddress}`}
+            onChange={pickAddress}
           >
             {addresses &&
               addresses.map((item) => (
@@ -67,4 +67,4 @@ const ConfirmacaoEndereco = (props) => {
     </>
   );
 };
-export default ConfirmacaoEndereco;
+export default ConfirmAddress;

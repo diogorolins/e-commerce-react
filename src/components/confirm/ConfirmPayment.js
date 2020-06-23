@@ -23,16 +23,16 @@ const useStyles = makeStyles({
     fontSize: "20px",
   },
 });
-const quantidade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const ConfirmacaoPagamento = (props) => {
+const ConfirmPayment = (props) => {
   const classes = useStyles();
   const {
-    tipoPagamento,
-    escolheTipoPagamento,
-    expiracaBolelo,
-    parcelas,
-    alteraParcelas,
+    paymentType,
+    choosePaymentType,
+    dueDate,
+    installments,
+    changeInstallments,
   } = props;
 
   return (
@@ -42,8 +42,8 @@ const ConfirmacaoPagamento = (props) => {
         <FormControl component="fieldset">
           <RadioGroup
             name="payment1"
-            value={tipoPagamento}
-            onChange={escolheTipoPagamento}
+            value={paymentType}
+            onChange={choosePaymentType}
           >
             <ExpansionPanel>
               <ExpansionPanelSummary
@@ -64,8 +64,8 @@ const ConfirmacaoPagamento = (props) => {
               <ExpansionPanelDetails>
                 <Typography color="textSecondary">
                   {`Parcelas: `}
-                  <Select value={parcelas} onChange={alteraParcelas}>
-                    {quantidade.map((item) => (
+                  <Select value={installments} onChange={changeInstallments}>
+                    {quantity.map((item) => (
                       <MenuItem key={item} value={item}>
                         {item}
                       </MenuItem>
@@ -92,7 +92,7 @@ const ConfirmacaoPagamento = (props) => {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography color="textSecondary">
-                  {`Vencimento: ${expiracaBolelo}`}
+                  {`Vencimento: ${dueDate}`}
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -103,4 +103,4 @@ const ConfirmacaoPagamento = (props) => {
   );
 };
 
-export default ConfirmacaoPagamento;
+export default ConfirmPayment;

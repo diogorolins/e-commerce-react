@@ -5,8 +5,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-const EnderecoLista = (props) => {
-  const { addresses, removeEnderecoLista } = props;
+const ListAddress = (props) => {
+  const { addresses, removeAddressFromList } = props;
 
   return (
     <>
@@ -49,7 +49,7 @@ const EnderecoLista = (props) => {
             <CardActions>
               <Button
                 color="secondary"
-                onClick={() => removeEnderecoLista(index)}
+                onClick={() => removeAddressFromList(index)}
               >
                 Remover
               </Button>
@@ -60,4 +60,4 @@ const EnderecoLista = (props) => {
   );
 };
 
-export default EnderecoLista;
+export default ListAddress;

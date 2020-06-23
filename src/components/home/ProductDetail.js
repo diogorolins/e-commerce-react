@@ -42,16 +42,16 @@ const ProductDetail = (props) => {
     quantity,
     product,
     handleQuantity,
-    open,
-    fechaModal,
-    adicionaProduto,
+    openProducDetail,
+    closeModal,
+    addProduct,
   } = props;
-  const quantidade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const arrayQuantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const classes = useStyles();
   return (
     <>
-      <Dialog open={open} fullWidth>
+      <Dialog open={openProducDetail} fullWidth>
         <DialogTitle>Adicione ao carrinho</DialogTitle>
         <DialogContent>
           <Box>
@@ -70,7 +70,7 @@ const ProductDetail = (props) => {
               <Box className={classes.item}>
                 <InputLabel>Quantidade</InputLabel>
                 <Select value={quantity} onChange={handleQuantity}>
-                  {quantidade.map((item) => (
+                  {arrayQuantity.map((item) => (
                     <MenuItem value={item} key={item}>
                       {item}
                     </MenuItem>
@@ -82,7 +82,7 @@ const ProductDetail = (props) => {
                   variant="contained"
                   color="primary"
                   size="small"
-                  onClick={adicionaProduto}
+                  onClick={addProduct}
                 >
                   Adicionar
                 </Button>
@@ -92,7 +92,7 @@ const ProductDetail = (props) => {
                   variant="contained"
                   color="default"
                   size="small"
-                  onClick={fechaModal}
+                  onClick={closeModal}
                 >
                   Fechar
                 </Button>
