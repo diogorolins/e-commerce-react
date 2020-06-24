@@ -109,7 +109,7 @@ class Home extends React.Component {
     } else {
       this.props.history.push({
         pathname: "/confirmation",
-        state: { detail: this.state.cart },
+        state: { cart: this.state.cart },
       });
     }
   };
