@@ -13,7 +13,7 @@ class Signin extends React.Component {
     name: "",
     email: "",
     cpfCnpj: "",
-    clientType: "",
+    clientType: "1",
     password: "",
     fixo: "",
     celular: "",
@@ -30,8 +30,9 @@ class Signin extends React.Component {
     states: [],
     cities: [],
 
-    errors: [],
+    errorsSnack: [],
     severity: "error",
+    errorsForm: "",
   };
 
   openModalAddress = async () => {
@@ -50,17 +51,20 @@ class Signin extends React.Component {
       )[0],
     };
 
-    const erros = FormValidation(addressObject);
+    const errors = FormValidation(addressObject);
 
-    this.setState({ errors: erros[0] });
-    if (erros.length === 0) {
+    if (errors.length === 0) {
       this.setState({
         addresses: [...this.state.addresses, addressObject],
+        openAddress: false,
       });
       this.cleanAddress();
-      this.setState({ openAddress: false });
     } else {
-      this.setState({ openSnack: true });
+      this.setState({
+        openSnack: true,
+        errorsSnack: errors[0].text,
+        errorsForm: errors.map((e) => e.field),
+      });
     }
   };
 
@@ -126,7 +130,6 @@ class Signin extends React.Component {
     };
 
     const errors = FormValidation(client);
-    this.setState({ errors: errors[0] });
 
     if (errors.length === 0) {
       const response = await ApiService.sendClient(client);
@@ -143,11 +146,15 @@ class Signin extends React.Component {
         });
       }
     } else {
-      this.setState({ openSnack: true });
+      this.setState({
+        openSnack: true,
+        errorsSnack: errors[0].text,
+        errorsForm: errors.map((e) => e.field),
+      });
     }
   };
 
-  handleCloseSnack = () => {
+  closeSnack = () => {
     this.setState({
       openSnack: false,
     });
@@ -160,10 +167,11 @@ class Signin extends React.Component {
       states,
       cities,
       openSnack,
-      errors,
+      errorsSnack,
       severity,
       addresses,
       address,
+      errorsForm,
     } = this.state;
 
     return (
@@ -171,8 +179,8 @@ class Signin extends React.Component {
         <Header />
         <Snack
           openSnack={openSnack}
-          handleCloseSnack={this.handleCloseSnack}
-          message={errors}
+          closeSnack={this.closeSnack}
+          message={errorsSnack}
           severity={severity}
         />
         <SigninForm
@@ -191,6 +199,7 @@ class Signin extends React.Component {
           openAddress={openAddress}
           state={address.state}
           city={address.city}
+          errorsForm={errorsForm}
         />
       </>
     );

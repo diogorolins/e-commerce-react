@@ -8,8 +8,20 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: "15px",
+  },
+  error: {
+    margin: "15px",
+    background: "red",
+  },
+}));
 
 const Address = (props) => {
+  const classes = useStyles();
   const {
     openModalAddress,
     openAddress,
@@ -21,6 +33,7 @@ const Address = (props) => {
     cities,
     state,
     city,
+    errorsForm,
   } = props;
 
   return (
@@ -30,6 +43,9 @@ const Address = (props) => {
         variant="contained"
         color="default"
         onClick={openModalAddress}
+        className={
+          errorsForm.includes("addresses") ? classes.error : classes.button
+        }
       >
         Escolha o endereço
       </Button>
@@ -52,6 +68,7 @@ const Address = (props) => {
             name="street"
             autoFocus
             onChange={fillFormFieldsAddress}
+            error={errorsForm.includes("street")}
           />
           <TextField
             variant="outlined"
@@ -62,6 +79,7 @@ const Address = (props) => {
             label="Número"
             name="number"
             onChange={fillFormFieldsAddress}
+            error={errorsForm.includes("number")}
           />
           <TextField
             variant="outlined"
@@ -71,6 +89,7 @@ const Address = (props) => {
             label="Complemento"
             name="compl"
             onChange={fillFormFieldsAddress}
+            error={errorsForm.includes("compl")}
           />
           <TextField
             variant="outlined"
@@ -81,6 +100,7 @@ const Address = (props) => {
             label="Bairro"
             name="neighborhood"
             onChange={fillFormFieldsAddress}
+            error={errorsForm.includes("neighborhood")}
           />
           <TextField
             variant="outlined"
@@ -91,6 +111,7 @@ const Address = (props) => {
             label="CEP"
             name="zipCode"
             onChange={fillFormFieldsAddress}
+            error={errorsForm.includes("zipCode")}
           />
           <InputLabel>Estado</InputLabel>
           <Select
@@ -100,6 +121,7 @@ const Address = (props) => {
             name="state"
             onChange={fillFormFieldsCity}
             value={state}
+            error={errorsForm.includes("state")}
           >
             {states.map((estado) => {
               return (
@@ -117,6 +139,7 @@ const Address = (props) => {
             name="city"
             onChange={fillFormFieldsAddress}
             value={city}
+            error={errorsForm.includes("city")}
           >
             {cities.map((cidade) => {
               return (

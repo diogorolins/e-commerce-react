@@ -1,14 +1,19 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { withRouter } from "react-router-dom";
 
 const LoginForm = (props) => {
-  const { fillFormFields, login, password, submitFormLogin } = props;
+  const {
+    fillFormFields,
+    login,
+    password,
+    submitFormLogin,
+    goToSignin,
+  } = props;
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -51,14 +56,12 @@ const LoginForm = (props) => {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
-              Esqueceu a senha?
-            </Link>
+            <Button color="primary">Esqueceu a senha?</Button>
           </Grid>
           <Grid item>
-            <Link href="/signin" variant="body2">
-              {"Cadastro"}
-            </Link>
+            <Button color="primary" onClick={goToSignin}>
+              Cadastro
+            </Button>
           </Grid>
         </Grid>
       </Container>

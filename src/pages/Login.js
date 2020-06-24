@@ -63,6 +63,10 @@ class Login extends React.Component {
     });
   };
 
+  goToSignin = () => {
+    this.props.history.push("/signin");
+  };
+
   render() {
     const { open, login, password, errors, severity } = this.state;
     return (
@@ -79,6 +83,7 @@ class Login extends React.Component {
           login={login}
           password={password}
           submitFormLogin={this.submitFormLogin}
+          goToSignin={this.goToSignin}
         />
       </>
     );
