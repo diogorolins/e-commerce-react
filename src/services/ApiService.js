@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //const urlBase = "http://localhost:8080";
-const urlBase = "hhttps://orders-backend.herokuapp.com";
+const urlBase = "https://orders-backend.herokuapp.com";
 
 const api = axios.create({
   baseURL: urlBase,
