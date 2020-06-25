@@ -21,11 +21,12 @@ class Home extends React.Component {
     openCart: false,
     cart: "",
     openSnack: false,
+    openProgress: true,
   };
 
   async componentDidMount() {
     const response = await ApiService.listCategories();
-    this.setState({ categories: response.data });
+    this.setState({ categories: response.data, openProgress: false });
     if (isAuthenticated()) {
       const token = getToken();
 
@@ -135,6 +136,7 @@ class Home extends React.Component {
       openCart,
       cart,
       openSnack,
+      openProgress,
     } = this.state;
     return (
       <>
@@ -159,7 +161,11 @@ class Home extends React.Component {
           removeItemCart={this.removeItemCart}
           sendCartToOrder={this.sendCartToOrder}
         />
-        <CategoryList categories={categories} getProducts={this.getProducts} />
+        <CategoryList
+          categories={categories}
+          getProducts={this.getProducts}
+          openProgress={openProgress}
+        />
 
         {products && (
           <ProductList

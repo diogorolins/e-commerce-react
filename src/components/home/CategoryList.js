@@ -7,6 +7,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,11 +31,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CategoryList = (props) => {
-  const { categories, getProducts } = props;
+  const { categories, getProducts, openProgress } = props;
   const classes = useStyles();
+
   return (
     <Box className={classes.box}>
       <div className={classes.text}>{"Selecione uma Categoria"}</div>
+
+      {openProgress && <CircularProgress color="secondary" />}
+
       <List
         component="nav"
         className={classes.root}
