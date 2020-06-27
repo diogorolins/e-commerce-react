@@ -9,6 +9,7 @@ import ApiService from "../services/ApiService";
 import { isAuthenticated, getToken } from "../services/AuthService";
 import Snack from "../services/SnackService";
 import { addItemCart, clearCart, getCart } from "../services/CartService";
+import { Grid } from "@material-ui/core";
 
 class Home extends React.Component {
   state = {
@@ -161,18 +162,20 @@ class Home extends React.Component {
           removeItemCart={this.removeItemCart}
           sendCartToOrder={this.sendCartToOrder}
         />
-        <CategoryList
-          categories={categories}
-          getProducts={this.getProducts}
-          openProgress={openProgress}
-        />
-
-        {products && (
-          <ProductList
-            products={products}
-            getProductDetail={this.getProductDetail}
+        <Grid container>
+          <CategoryList
+            categories={categories}
+            getProducts={this.getProducts}
+            openProgress={openProgress}
           />
-        )}
+
+          {products && (
+            <ProductList
+              products={products}
+              getProductDetail={this.getProductDetail}
+            />
+          )}
+        </Grid>
         {product && (
           <ProductDetail
             product={product}

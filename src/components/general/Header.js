@@ -3,53 +3,32 @@ import Link from "@material-ui/core/Link";
 import { isAuthenticated, logout } from "../../services/AuthService";
 import { withRouter } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
-const useStyles = makeStyles((theme) => ({
-  boxLeft: {
-    float: "left",
-    width: "60%",
-    marginTop: "5px",
-  },
-  boxRight: {
-    float: "left",
-    width: "40%",
-    textAlignLast: "right",
-  },
+const useStyles = makeStyles(() => ({
   linkHome: {
     color: "white",
     fontSize: 25,
   },
   buttonHeader: {
-    display: "inline-block",
-    margin: "5px",
-    padding: 0,
     color: "white",
     fontWeight: "bold",
   },
   boxHeader: {
-    float: "left",
     backgroundColor: "#750000",
     color: "primary.contrastText",
-    width: "95%",
-    padding: "15px",
     borderRadius: "4px",
-    display: "block",
+    padding: "0px 20px",
+    padding: "12px",
   },
 }));
 
 const Header = (props) => {
   const classes = useStyles();
-  const {
-    history,
-    userName,
-    openCart,
-    showIconCart,
-    clearCart,
-    showLoginIcon,
-  } = props;
+  const { history, userName, openCart, showIconCart, clearCart } = props;
 
   const loginFunction = () => {
     history.push({
@@ -65,42 +44,53 @@ const Header = (props) => {
   };
 
   return (
-    <Box className={classes.boxHeader}>
-      <Box className={classes.boxLeft} alignItems="left">
+    <Grid
+      container
+      className={classes.boxHeader}
+      justify="space-between"
+      direction="row"
+    >
+      <Grid item>
         <Link className={classes.linkHome} href="/">
           Venda de Produtos
         </Link>
-      </Box>
-
-      <Box className={classes.boxRight} alignItems="right">
-        {isAuthenticated() && (
-          <Box className={classes.buttonHeader}>{`Bem-vindo, ${userName}`}</Box>
-        )}
-        {showIconCart && (
-          <Box className={classes.buttonHeader}>
-            <Button variant="contained" color="primary" onClick={openCart}>
-              <ShoppingCartIcon />
-            </Button>
-          </Box>
-        )}
-
-        {showLoginIcon && (
-          <Box className={classes.buttonHeader}>
-            {!isAuthenticated() ? (
-              <Button onClick={loginFunction} variant="contained">
-                Login
+      </Grid>
+      <Grid item>
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item>
+            {showIconCart && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={openCart}
+                className={classes.buttonHeader}
+              >
+                <ShoppingCartIcon />
               </Button>
-            ) : (
-              <>
+            )}
+          </Grid>
+
+          {isAuthenticated() ? (
+            <>
+              <Grid item className={classes.buttonHeader}>
+                {`Bem-vindo, ${userName}`}
+              </Grid>
+              <Grid item>
                 <Button onClick={logoutFunction} variant="contained">
                   Logout
                 </Button>
-              </>
-            )}
-          </Box>
-        )}
-      </Box>
-    </Box>
+              </Grid>
+            </>
+          ) : (
+            <Grid item>
+              <Button onClick={loginFunction} variant="contained">
+                Login
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 export default withRouter(Header);

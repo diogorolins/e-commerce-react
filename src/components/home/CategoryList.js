@@ -1,6 +1,5 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import Box from "@material-ui/core/Box";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
@@ -8,25 +7,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   text: {
-    ...theme.typography.button,
-    padding: theme.spacing(1),
-    paddingTop: "10px",
     color: "#750000",
     fontWeight: "bolder",
-  },
-  box: {
-    display: "block",
-    width: "25%",
-    marginLeft: "20px",
-    float: "left",
+    fontSize: "20px",
+    paddingTop: "10px",
+    paddingLeft: "10px",
   },
 }));
 
@@ -35,7 +27,7 @@ const CategoryList = (props) => {
   const classes = useStyles();
 
   return (
-    <Box className={classes.box}>
+    <Grid item xs={3}>
       <div className={classes.text}>{"Selecione uma Categoria"}</div>
 
       {openProgress && <CircularProgress color="secondary" />}
@@ -65,7 +57,7 @@ const CategoryList = (props) => {
           </React.Fragment>
         ))}
       </List>
-    </Box>
+    </Grid>
   );
 };
 export default CategoryList;
